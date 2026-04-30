@@ -1,5 +1,8 @@
-# Optimización Procesos del Sistema Informático de Clientes
-# y Transacciones de la empresa de Retail “THE BEST”
+# Optimización Procesos del Sistema Informático de Clientes y Transacciones de la empresa de Retail “THE BEST”
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/LOGO.jpg" width="350" title="hover text">
+</p>
 
 THE BEST es una empresa de Retail perteneciente al Holding Chileno GRUPO TERRACHILE S.A que se fundó el año el año 2010 y en el año 2017 creó THE BEST y que a la fecha de hoy cuenta con sucursales en todas las regiones del país. Su éxito se debe a las estrategias innovadoras que se han implementado en estos años beneficiando a sus clientes en compras, avances en efectivo y súper avances con tasas de interés más atractivas que las ofrecidas por las otras empresas del mismo rubro y entidades bancarias tradicionales. 
 Para poder optar a los avances en efectivo y/o súper avances, la persona debe poseer la tarjeta THE BEST, con la cual también puede efectuar compras en cuotas en las diferentes tiendas que posee el Retail. Cuando una persona solicita la tarjeta THE BEST, se completa un formulario con los siguientes datos personales del cliente:
@@ -27,14 +30,17 @@ Al ser cliente de THE BEST, la persona puede optar por cualquiera de los otros p
 | 6 | Seguro de Vida | | |
 | 7 | Seguro de Salud	| | |
 | 8 | Seguro de Hogar | | |
+
 Cuando se le entrega la tarjeta THE BEST al cliente se le hace firmar un documento en el que se le informa el cupo máximo (en dinero) para tendrá para efectuar compras, avances en efectivo o súper avances. El cupo de compras asignado incluye el monto destinado para avances en efectivo y que corresponde al 40% del cupo total de compras. Para los súper avances al cliente se le asigna un cupo especial ya que es administrado como si fuera un crédito de consumo, pero con un monto máximo a solicitar menor.
 La tasa de interés para cualquier transacción efectuada con la tarjeta THE BEST está definida de acuerdo a lo siguiente:
+
 | Identificación del tipo de Transacción | Nombre del tipo de Transacción | Tasa de Interés por cuota | Nro. Máximo
 Cuotas en que se puede solicitar |
 | :---: | :---: | :---: | :---: |
 | 101 | Compras Tiendas del Retail o Asociadas | 0,05 | 48 |
 | 102 | Avance en Efectivo | 0,05 | 24 |
 | 103 | Súper Avance en Efectivo | 0,1 | 36 |
+
 A un cliente se le pueden entregar un máximo de 3 tarjetas adicionales cada una de ellas con un número diferente. Para que al cliente se le entregue más de una tarjeta adicional debe poseer un salario líquido mensual igual o superior a los $2.000.000 mensuales. Cada vez que un cliente utiliza su tarjeta para efectuar una transacción en alguna sucursal (física o virtual) queda registrada la siguiente información: 
 •	Identificación de la sucursal en la que el cliente efectuó la compra, el avance o súper avance en dinero
 •	Región, provincia y comuna a la que pertenece la sucursal en la que el cliente efectuó la transacción
@@ -55,7 +61,7 @@ Para efectuar este trabajo, THE BEST lo ha contratado a Ud. y en reunión efectu
 # RESUMEN REQUERIMIENTOS A RESOLVER
 En esta primera etapa se deben resolver los siguientes requerimientos:
 1.-La empresa de retail implementará el nuevo Programa de Puntos CIRCULO THE BEST orientado a los clientes que utilicen su tarjeta para efectuar compras, avances y/o súper avances en dinero. Por lo tanto, se requiere que cada vez que un cliente utilice su tarjeta para efectuar cualquier transacción, se registre automáticamente los puntos que obtuvo. Para obtener los puntos, se hace la división del monto de la transacción por 10000 y luego multiplicados por 250.
-**
+
 --RESPUESTA
 CREATE OR REPLACE TRIGGER TGR_PUNTOS
 AFTER INSERT OR UPDATE OR DELETE ON TRANSACCION_TARJETA_CLIENTE
@@ -103,25 +109,25 @@ END;
 --PRUEBAS
 INSERT INTO TRANSACCION_TARJETA_CLIENTE VALUES(32723552593,1004,'27/02/26',537600,12,591360,103,3011);
 <p align="center">
-  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.1.PNG" title="hover text">
+  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.1.png" title="hover text">
 </p>
 
 UPDATE TRANSACCION_TARJETA_CLIENTE SET
 MONTO_TOTAL_TRANSACCION = 700000
 WHERE NRO_TARJETA=32723552593 AND NRO_TRANSACCION=1004;
 <p align="center">
-  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.2.PNG" title="hover text">
+  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.2.png" title="hover text">
 </p>
 
 DELETE FROM TRANSACCION_TARJETA_CLIENTE
 WHERE NRO_TARJETA=32723552593 AND NRO_TRANSACCION=1004;
 <p align="center">
-  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.3.PNG" title="hover text">
+  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.3.png" title="hover text">
 </p>
-**
+
 
 2.-Se requieren contar con un proceso que diariamente a las 23:00 horas actualice las fotografías que los clientes han entregado para completar sus antecedentes en el Sistema.
-**
+
 --RESPUESTA
 CREATE OR REPLACE DIRECTORY FOTOS_CLIENTE AS 'C:\fotos_clientes';
 --Realizar este grant desde un usuario con privilegios mas elevados.
@@ -192,11 +198,11 @@ END;
 --EJECUTAMOS MANUALMENTE PARA COMPROBAR
 EXEC PRC_ACTUALIZAR_FOTOS;
 <p align="center">
-  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA2.PNG" title="hover text">
+  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA2.png" title="hover text">
 </p>
-**
+
 3.-Se requiere un proceso que mensualmente genere la información de los avances y súper avances en dinero que fueron solicitados durante el mes y que debe ser enviada a la SBIF. Este proceso se deberá ejecutar automáticamente el día 06 de cada mes y debe permitir saber información detallada de los avances y súper avances que fueron solicitados en el mes anterior a la fecha de ejecución. Por ejemplo, si el proceso se ejecuta el 06 de febrero del 2019, se deberá generar la información del mes de enero del 2019.
-**
+
 --RESPUESTA
 CREATE OR REPLACE PROCEDURE PRC_INFORME_AVANCES_SUPERS IS
 CURSOR C_DETALLE IS
@@ -291,11 +297,10 @@ EXEC PRC_INFORME_AVANCES_SUPERS;
 
 DETALLE_AVAN_SAVAN_MENSUALES
 <p align="center">
-  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA3.1.PNG" title="hover text">
+  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA3.1.png" title="hover text">
 </p>
 
 RESUMEN_AVAN_SAVAN_MENSUALES
 <p align="center">
-  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA3.2.PNG" title="hover text">
+  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA3.2.png" title="hover text">
 </p>
-**
