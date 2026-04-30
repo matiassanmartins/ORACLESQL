@@ -107,6 +107,7 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
     END;
 
 --PRUEBAS
+
     INSERT INTO TRANSACCION_TARJETA_CLIENTE VALUES(32723552593,1004,'27/02/26',537600,12,591360,103,3011);
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.1.png" title="hover text">
