@@ -16,7 +16,7 @@ Para la integridad de la información, se ha decidido obtenerla mediante la vist
 
 
 --RESPUESTA
-
+```sql
     CREATE OR REPLACE VIEW VW_STOCK_NOTIFICADO AS
     SELECT 
     EMP.NOMBRE_EMP AS "EMPRESA",
@@ -49,7 +49,7 @@ Para la integridad de la información, se ha decidido obtenerla mediante la vist
     WITH READ ONLY;
 
     SELECT * FROM VW_STOCK_NOTIFICADO;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA1.png" title="hover text">
 </p>
