@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/matiassanmartins/SQL/refs/heads/main/LOGO_ORACLESQL.png" width="500" title="hover text">
+  <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/LOGO_ORACLESQL.png" width="500" title="hover text">
 </p>
 
 # Casos Ficticios en OracleSQL📊🛠️
