@@ -62,7 +62,7 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
 1.-La empresa de retail implementará el nuevo Programa de Puntos CIRCULO THE BEST orientado a los clientes que utilicen su tarjeta para efectuar compras, avances y/o súper avances en dinero. Por lo tanto, se requiere que cada vez que un cliente utilice su tarjeta para efectuar cualquier transacción, se registre automáticamente los puntos que obtuvo. Para obtener los puntos, se hace la división del monto de la transacción por 10000 y luego multiplicados por 250.
 
 --RESPUESTA
-
+```sql
     CREATE OR REPLACE TRIGGER TGR_PUNTOS
     AFTER INSERT OR UPDATE OR DELETE ON TRANSACCION_TARJETA_CLIENTE
     FOR EACH ROW
@@ -105,23 +105,29 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
     END IF;
 
     END;
-
+```
 --PRUEBAS
-
+```sql
     INSERT INTO TRANSACCION_TARJETA_CLIENTE VALUES(32723552593,1004,'27/02/26',537600,12,591360,103,3011);
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.1.png" title="hover text">
 </p>
 
+```sql
     UPDATE TRANSACCION_TARJETA_CLIENTE SET
     MONTO_TOTAL_TRANSACCION = 700000
     WHERE NRO_TARJETA=32723552593 AND NRO_TRANSACCION=1004;
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.2.png" title="hover text">
 </p>
 
+```sql
     DELETE FROM TRANSACCION_TARJETA_CLIENTE
     WHERE NRO_TARJETA=32723552593 AND NRO_TRANSACCION=1004;
+```
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA1.3.png" title="hover text">
 </p>
@@ -130,24 +136,24 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
 2.-Se requieren contar con un proceso que diariamente a las 23:00 horas actualice las fotografías que los clientes han entregado para completar sus antecedentes en el Sistema.
 
 --RESPUESTA
-
+```sql
     CREATE OR REPLACE DIRECTORY FOTOS_CLIENTE AS 'C:\fotos_clientes';
-
+```
 --Realizar este grant desde un usuario con privilegios mas elevados.
-
+```sql
     GRANT READ, WRITE ON DIRECTORY FOTOS_CLIENTE TO BEST;
-
+```
 --Proceso para insertar errores
-
+```sql
     CREATE OR REPLACE PROCEDURE SP_ERRORES(P_RUTINA VARCHAR, P_DESCRIPCION VARCHAR)IS
     BEGIN
         INSERT INTO ERROR_AVAN_SAVAN_MENSUALES VALUES(SEQ_ERROR.NEXTVAL,P_RUTINA,P_DESCRIPCION);
     END SP_ERRORES;
-
+```
 --ITEM 2
 
 --INSERCION DE FOTOGRAFIAS
-
+```sql
     SET SERVEROUTPUT ON;
 
     CREATE OR REPLACE PROCEDURE PRC_ACTUALIZAR_FOTOS IS
@@ -188,9 +194,9 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
     END LOOP;
     CLOSE C_CLIENTE;
     END;
-
+```
 --CREAMOS UN JOB PARA QUE SE INICIE TODOS LOS DIAS A LAS 23:00
-
+```sql
     BEGIN
         DBMS_SCHEDULER.CREATE_JOB(
         JOB_NAME =>'ACTUALIZAR_FOTOGRAFIAS',
@@ -203,10 +209,12 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
         COMMENTS => 'ACTULIZA LAS FOTOS DE LOS CLIENTES'
         );
     END;
-
+```
 --EJECUTAMOS MANUALMENTE PARA COMPROBAR
-
+```sql
     EXEC PRC_ACTUALIZAR_FOTOS;
+```
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA2.png" title="hover text">
 </p>
@@ -214,7 +222,7 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
 3.-Se requiere un proceso que mensualmente genere la información de los avances y súper avances en dinero que fueron solicitados durante el mes y que debe ser enviada a la SBIF. Este proceso se deberá ejecutar automáticamente el día 06 de cada mes y debe permitir saber información detallada de los avances y súper avances que fueron solicitados en el mes anterior a la fecha de ejecución. Por ejemplo, si el proceso se ejecuta el 06 de febrero del 2019, se deberá generar la información del mes de enero del 2019.
 
 --RESPUESTA
-
+```sql
     CREATE OR REPLACE PROCEDURE PRC_INFORME_AVANCES_SUPERS IS
     CURSOR C_DETALLE IS
     SELECT
@@ -288,9 +296,9 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
     END LOOP;
     CLOSE C_DETALLE;
     END;
-
+```
 --CREAMOS UN JOB QUE SE EJECUTE EL DIA PRIMERO DE CADA MES
-
+```sql
     BEGIN
         DBMS_SCHEDULER.CREATE_JOB(
         JOB_NAME =>'CREAR_INFORME_MENSUAL',
@@ -303,11 +311,11 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
         COMMENTS => 'SE REALIZA EL INFORME MENSUAL DE LOS AVANCES Y SUPERS'
         );
     END;
-
+```
 --EJECUTAMOS MANUALMENTE PARA COMPROBAR
-
+```sql
     EXEC PRC_INFORME_AVANCES_SUPERS;
-
+```
 DETALLE_AVAN_SAVAN_MENSUALES
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA3.1.png" title="hover text">

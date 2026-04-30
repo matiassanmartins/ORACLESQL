@@ -12,7 +12,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
 
 
 --RESPUESTA
-
+```sql
     SELECT 
     EQUIPO_1||' VS '|| EQUIPO_2 AS "PARTIDO",
     SUBSTR(equipo_1,1,3) || ' VS ' || SUBSTR(equipo_2,1,3) AS "ABREVIATURA",
@@ -23,7 +23,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
     WHEN 'J' THEN 'JUGADO' END AS "ESTADO"
     FROM PROGRAMACION
     ORDER BY "FECHA_PARTIDO" ASC, "INICIO" ASC;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_CAMPUS_SQL/IMAGENES/RESPUESTA1.png" title="hover text">
 </p>
@@ -33,7 +33,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
 
 
 --RESPUESTA
-
+```sql
     SELECT 
     TO_CHAR(FECHA,'DD/MM/YY') AS "FECHA",
     CANCHA,
@@ -49,7 +49,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
     FROM PARTIDO
     WHERE FECHA BETWEEN '25/08/18' AND '29/08/18'
     ORDER BY FECHA DESC, EQUIPO_LOCAL ASC;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_CAMPUS_SQL/IMAGENES/RESPUESTA2.png" title="hover text">
 </p>
@@ -59,7 +59,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
 
 
 --RESPUESTA
-
+```sql
     SELECT
     MINUTO || '''GOL PARA' || EQUIPO_JUGADOR || ': ' || SUBSTR(NOMBRE_JUGADOR,1,1)
     || ',' || APELLIDO_JUGADOR || '(' || CAMISETA || ')' AS "EVENTO",
@@ -69,7 +69,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
     --SIMULAREMOS QUE NOS ENCONTRAMOS EN UNA FECHA CERCANA PARA CUMPLIR LA CONDICION DE LOS 15 DIAS Y OBTENER DATOS
     --PERO LA SENTENCIA REAL ES WHERE FECHA BETWEEN CURRENT_DATE-15 AND CURRENT_DATE;
     WHERE FECHA BETWEEN TO_DATE('05/09/18')-15 AND TO_DATE('05/09/18');
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_CAMPUS_SQL/IMAGENES/RESPUESTA3.png" title="hover text">
 </p>
@@ -79,7 +79,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
 
 
 --RESPUESTA
-
+```sql
     SELECT
     USU.USERNAME AS "USUARIO",
     COUNT(PAR.ID_USER) AS "PARTIDOS_OBSERVADOS",
@@ -93,7 +93,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
     --RESPUESTA REAL -> WHERE PRO.MINUTOS_JUGADOS IS NOT NULL AND EXTRACT(MONTH FROM PRO.FECHA)=8 AND EXTRACT(YEAR FROM PRO.FECHA)=EXTRACT(YEAR FROM CURRENT_DATE)
     WHERE PRO.MINUTOS_JUGADOS IS NOT NULL AND EXTRACT(MONTH FROM PRO.FECHA)=8 AND EXTRACT(YEAR FROM PRO.FECHA)=2018
     GROUP BY USU.USERNAME;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_CAMPUS_SQL/IMAGENES/RESPUESTA4.png" title="hover text">
 </p>
@@ -103,7 +103,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
 
 
 --RESPUESTA
-
+```sql
     SELECT
     TO_CHAR(PAR.INICIO,'DD/MM/YYYY HH24:MI') AS "FECHA",
     TO_CHAR(PAR.INICIO,'HH24:MI') AS "HORA",
@@ -118,7 +118,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
     JOIN PROGRAMACION PRO ON PRO.ID_PROGRAMACION=PAR.ID_PROGRAMACION
     WHERE PAR.INICIO BETWEEN '25/08/18' AND '29/08/18'
     ORDER BY PAR.INICIO ASC;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_CAMPUS_SQL/IMAGENES/RESPUESTA5.png" title="hover text">
 </p>
@@ -128,7 +128,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
 
 
 --RESPUESTA
-
+```sql
     SELECT
     PAR.EQUIPO_LOCAL AS "EQUIPO_LOCAL",
     PAR.EQUIPO_VISITA AS "EQUIPO_VISITA",
@@ -150,7 +150,7 @@ Por los motivos descritos, se le ha contactado para reestructurar y automatizar 
     INNER JOIN PROGRAMACION PRO ON PRO.ID_PROGRAMACION = PAR.ID_PROGRAMACION
     INNER JOIN TARIFA TAR ON TAR.ID_TARIFA = PAR.ID_TARIFA
     ORDER BY "SALDO_A_PAGAR" DESC;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_CAMPUS_SQL/IMAGENES/RESPUESTA6.png" title="hover text">
 </p>

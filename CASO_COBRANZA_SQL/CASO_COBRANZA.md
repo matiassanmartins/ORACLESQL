@@ -68,7 +68,7 @@ Los resultados deben ser ordenados y formateados.
 
 
 --RESPUESTA
-
+```sql
     CREATE OR REPLACE VIEW VW_EMP_SUELDO_COMISION AS
     SELECT
     USU.NOMBRE_USR||' '||USU.APATERNO_USR AS "USUARIO",
@@ -101,7 +101,7 @@ Los resultados deben ser ordenados y formateados.
     WITH READ ONLY;
 
     SELECT * FROM VW_EMP_SUELDO_COMISION;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA2.png" title="hover text">
 </p>
@@ -114,7 +114,7 @@ La información se debe ordenar por cantidad de deudas descendente, monto de la 
 
 
 --RESPUESTA
-
+```sql
     CREATE OR REPLACE VIEW VW_CLIENTES_RECAUDACION AS
     SELECT
     TRIM(TO_CHAR(CLI.RUT_CLE,'99G999G999','NLS_NUMERIC_CHARACTERS = '',.''')||'-'||CLI.DV_CLE) AS "RUT",
@@ -140,7 +140,7 @@ La información se debe ordenar por cantidad de deudas descendente, monto de la 
     WITH READ ONLY;
 
     SELECT * FROM VW_CLIENTES_RECAUDACION;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA3.png" title="hover text">
 </p>
@@ -156,7 +156,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
 | 51 a 75 | 20% de descuento |
 | 76 o más | 25% de descuento |
 
-
+```sql
     CREATE SEQUENCE SEQ_NUMERO_OFC
     START WITH 1001
     INCREMENT BY 1;
@@ -179,7 +179,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
     INSERT INTO OFERTA_CLIENTE(NUMERO_OFC,RUT_CLE,SCORE_OFC,OFERTA_OFC)SELECT * FROM OFERTA;
 
     SELECT * FROM VW_CLIENTES_RECAUDACION;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA4.png" title="hover text">
 </p>
@@ -195,7 +195,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
 
 
 --RESPUESTA
-
+```sql
     ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
     CREATE ROLE ROL_GESTION;
     GRANT SELECT ON CLIENTE TO ROL_GESTION;
@@ -210,7 +210,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
     GRANT SELECT ON VW_CLIENTES_RECAUDACION TO ROL_MANTENCION;
 
     SELECT * FROM DBA_ROLES;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA5.1.png" title="hover text">
 </p>
@@ -226,7 +226,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
 
 
 --RESPUESTA
-
+```sql
     ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
     CREATE USER USR_EJECUTIVO IDENTIFIED BY "123";
     GRANT ROL_GESTION TO USR_EJECUTIVO;
@@ -246,7 +246,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
     GRANT SELECT ON VW_STOCK_NOTIFICADO TO USR_GERENCIA;
 
     SELECT * FROM ALL_USERS;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA5.2.png" title="hover text">
 </p>
@@ -256,7 +256,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
 
 
 --RESPUESTA
-
+```sql
     CREATE SYNONYM NOTIF FOR NOTIFICACION;
     GRANT SELECT ON NOTIF TO USR_EJECUTIVO;
 
@@ -267,7 +267,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
     CREATE SYNONYM EMP FOR EMPRESA;
     GRANT SELECT,UPDATE ON EMP TO USR_DESARROLLO;
     GRANT SELECT ON EMP TO USR_EJECUTIVO;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA5.3.png" title="hover text">
 </p>
@@ -277,10 +277,10 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
 
 
 --RESPUESTA
-
+```sql
     CREATE SYNONYM V_CLI_REC_ED FOR VW_CLIENTES_RECAUDACION;
     GRANT SELECT ON V_CLI_REC_ED TO USR_EJECUTIVO,USR_DESARROLLO;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA5.4.png" title="hover text">
 </p>
@@ -290,12 +290,12 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
 
 
 --RESPUESTA
-
+```sql
     CREATE SYNONYM V_STOCK_NOTIF FOR VW_STOCK_NOTIFICADO;
     GRANT SELECT ON V_STOCK_NOTIF TO USR_GERENCIA;
     CREATE SYNONYM V_CLI_REC_GE FOR VW_CLIENTES_RECAUDACION;
     GRANT SELECT ON V_CLI_REC_GE TO USR_GERENCIA;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA5.5.png" title="hover text">
 </p>
@@ -303,7 +303,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
 
 6.- Se ha detectado una lentitud en la respuesta de la Base de Datos, a lo cual se realizó un análisis para detectar la problemática, y se ha deducido que hay dos consultas que demoran la respuesta y el proceso de la Base de Datos, cual afecta en la gestión de las cobranzas diariamente. El resultado del análisis detecto lo siguiente:
 6.1.- El informe del ranking mensual de las comunas riesgosas presenta un problema de lentitud y al obtener los datos ejecutando la sentencia y su plan de ejecución, se observa que tabla DEUDA se está recorriendo completa para el análisis de los datos. La sentencia ejecutada es la siguiente:
-
+```sql
     SELECT 
     COM.NOMBRE_COM "COMUNA",
     COUNT(*) "CANT. CLIENTES CON DEUDA",
@@ -318,7 +318,7 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
     DEU.COD_ESD <> DEU.FH_DEUDA_DEA BETWEEN TO_DATE('2018/08/20','YYYY/MM/DD') - 90 AND TO_DATE('2018/08/20','YYYY/MM/DD')
     GROUP BY COM.NOMBRE_COM
     HAVING COUNT(*) >= 3;
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA6.1.1.png" title="hover text">
 </p>
@@ -332,11 +332,11 @@ Sin embargo, un usuario por error eliminó este índice por lo que es de urgenci
 
 
 --RESPUESTA
-
+```sql
     CREATE INDEX IDX_DEUDA ON DEUDA(FH_DEUDA_DEA);
-
+```
 6.2.- El otro informe que ha causado problemas, refiere a la cantidad de clientes que se tienen por región, el cual consulta por el nombre de la región de la cual se requieren los datos. En el ejemplo, se obtienen los datos de los clientes relacionados a la Región  Metropolitana de Santiago, y al obtener el plan de ejecución se puede observar que el acceso a la tabla REGION está siendo accedida en modo FULL.
-
+```sql
     SELECT 
     CO.NOMBRE_COM "COMUNA",
     COUNT(DC.RUT_CLE) "CANTIDAD CLIENTES"
@@ -352,7 +352,7 @@ Sin embargo, un usuario por error eliminó este índice por lo que es de urgenci
     WHERE 
     trim(UPPER(NOMBRE_REG)) = trim(UPPER('Región Metropolitana de Santiago'))))
     GROUP BY CO.NOMBRE_COM
-
+```
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/RESPUESTA6.2.1.png" title="hover text">
 </p>
@@ -365,5 +365,6 @@ Efectuadas algunas pruebas, los mejores tiempos de respuestas de la consulta se 
 
 
 --RESPUESTA
-
+```sql
     CREATE INDEX IDX_REGION ON REGION(TRIM(UPPER(NOMBRE_REG)));
+```
