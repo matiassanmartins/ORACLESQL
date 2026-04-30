@@ -63,6 +63,7 @@ En esta primera etapa se deben resolver los siguientes requerimientos:
 1.-La empresa de retail implementará el nuevo Programa de Puntos CIRCULO THE BEST orientado a los clientes que utilicen su tarjeta para efectuar compras, avances y/o súper avances en dinero. Por lo tanto, se requiere que cada vez que un cliente utilice su tarjeta para efectuar cualquier transacción, se registre automáticamente los puntos que obtuvo. Para obtener los puntos, se hace la división del monto de la transacción por 10000 y luego multiplicados por 250.
 
 --RESPUESTA
+
 CREATE OR REPLACE TRIGGER TGR_PUNTOS
 AFTER INSERT OR UPDATE OR DELETE ON TRANSACCION_TARJETA_CLIENTE
 FOR EACH ROW
@@ -129,6 +130,7 @@ WHERE NRO_TARJETA=32723552593 AND NRO_TRANSACCION=1004;
 2.-Se requieren contar con un proceso que diariamente a las 23:00 horas actualice las fotografías que los clientes han entregado para completar sus antecedentes en el Sistema.
 
 --RESPUESTA
+
 CREATE OR REPLACE DIRECTORY FOTOS_CLIENTE AS 'C:\fotos_clientes';
 --Realizar este grant desde un usuario con privilegios mas elevados.
 GRANT READ, WRITE ON DIRECTORY FOTOS_CLIENTE TO BEST;
@@ -204,6 +206,7 @@ EXEC PRC_ACTUALIZAR_FOTOS;
 3.-Se requiere un proceso que mensualmente genere la información de los avances y súper avances en dinero que fueron solicitados durante el mes y que debe ser enviada a la SBIF. Este proceso se deberá ejecutar automáticamente el día 06 de cada mes y debe permitir saber información detallada de los avances y súper avances que fueron solicitados en el mes anterior a la fecha de ejecución. Por ejemplo, si el proceso se ejecuta el 06 de febrero del 2019, se deberá generar la información del mes de enero del 2019.
 
 --RESPUESTA
+
 CREATE OR REPLACE PROCEDURE PRC_INFORME_AVANCES_SUPERS IS
 CURSOR C_DETALLE IS
 SELECT

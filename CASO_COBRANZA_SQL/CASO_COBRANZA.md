@@ -1,3 +1,4 @@
+# CASO COBRANZA
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_COBRANZA_SQL/IMAGENES/LOGO.jpg" width="350" title="hover text">
 </p>
@@ -15,6 +16,7 @@ Para la integridad de la información, se ha decidido obtenerla mediante la vist
 
 
 --RESPUESTA
+
 CREATE OR REPLACE VIEW VW_STOCK_NOTIFICADO AS
 SELECT 
 EMP.NOMBRE_EMP AS "EMPRESA",
@@ -65,6 +67,7 @@ Los resultados deben ser ordenados y formateados.
 
 
 --RESPUESTA
+
 CREATE OR REPLACE VIEW VW_EMP_SUELDO_COMISION AS
 SELECT
 USU.NOMBRE_USR||' '||USU.APATERNO_USR AS "USUARIO",
@@ -109,6 +112,7 @@ La información se debe ordenar por cantidad de deudas descendente, monto de la 
 
 
 --RESPUESTA
+
 CREATE OR REPLACE VIEW VW_CLIENTES_RECAUDACION AS
 SELECT
 TRIM(TO_CHAR(CLI.RUT_CLE,'99G999G999','NLS_NUMERIC_CHARACTERS = '',.''')||'-'||CLI.DV_CLE) AS "RUT",
@@ -150,7 +154,8 @@ PAY NOW desea que se incorpore a la tabla OFERTA_CLIENTE el segmento de clientes
 | 76 o más | 25% de descuento |
 
 
---RESPUESTA
+
+
 CREATE SEQUENCE SEQ_NUMERO_OFC
 START WITH 1001
 INCREMENT BY 1;
@@ -188,6 +193,7 @@ SELECT * FROM VW_CLIENTES_RECAUDACION;
 
 
 --RESPUESTA
+
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE ROLE ROL_GESTION;
 GRANT SELECT ON CLIENTE TO ROL_GESTION;
@@ -217,6 +223,7 @@ SELECT * FROM DBA_ROLES;
 
 
 --RESPUESTA
+
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE USER USR_EJECUTIVO IDENTIFIED BY "123";
 GRANT ROL_GESTION TO USR_EJECUTIVO;
@@ -245,6 +252,7 @@ SELECT * FROM ALL_USERS;
 
 
 --RESPUESTA
+
 CREATE SYNONYM NOTIF FOR NOTIFICACION;
 GRANT SELECT ON NOTIF TO USR_EJECUTIVO;
 
@@ -264,6 +272,7 @@ GRANT SELECT ON EMP TO USR_EJECUTIVO;
 
 
 --RESPUESTA
+
 CREATE SYNONYM V_CLI_REC_ED FOR VW_CLIENTES_RECAUDACION;
 GRANT SELECT ON V_CLI_REC_ED TO USR_EJECUTIVO,USR_DESARROLLO;
 <p align="center">
@@ -275,6 +284,7 @@ GRANT SELECT ON V_CLI_REC_ED TO USR_EJECUTIVO,USR_DESARROLLO;
 
 
 --RESPUESTA
+
 CREATE SYNONYM V_STOCK_NOTIF FOR VW_STOCK_NOTIFICADO;
 GRANT SELECT ON V_STOCK_NOTIF TO USR_GERENCIA;
 CREATE SYNONYM V_CLI_REC_GE FOR VW_CLIENTES_RECAUDACION;
@@ -311,8 +321,8 @@ Sin embargo, un usuario por error eliminó este índice por lo que es de urgenci
 
 
 --RESPUESTA
-CREATE INDEX IDX_DEUDA ON DEUDA(FH_DEUDA_DEA);
 
+CREATE INDEX IDX_DEUDA ON DEUDA(FH_DEUDA_DEA);
 
 6.2.- El otro informe que ha causado problemas, refiere a la cantidad de clientes que se tienen por región, el cual consulta por el nombre de la región de la cual se requieren los datos. En el ejemplo, se obtienen los datos de los clientes relacionados a la Región  Metropolitana de Santiago, y al obtener el plan de ejecución se puede observar que el acceso a la tabla REGION está siendo accedida en modo FULL.
 
@@ -342,4 +352,5 @@ Efectuadas algunas pruebas, los mejores tiempos de respuestas de la consulta se 
 
 
 --RESPUESTA
+
 CREATE INDEX IDX_REGION ON REGION(TRIM(UPPER(NOMBRE_REG)));
