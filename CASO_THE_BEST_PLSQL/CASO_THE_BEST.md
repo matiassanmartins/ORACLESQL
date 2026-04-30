@@ -34,8 +34,7 @@ Al ser cliente de THE BEST, la persona puede optar por cualquiera de los otros p
 Cuando se le entrega la tarjeta THE BEST al cliente se le hace firmar un documento en el que se le informa el cupo máximo (en dinero) para tendrá para efectuar compras, avances en efectivo o súper avances. El cupo de compras asignado incluye el monto destinado para avances en efectivo y que corresponde al 40% del cupo total de compras. Para los súper avances al cliente se le asigna un cupo especial ya que es administrado como si fuera un crédito de consumo, pero con un monto máximo a solicitar menor.
 La tasa de interés para cualquier transacción efectuada con la tarjeta THE BEST está definida de acuerdo a lo siguiente:
 
-| Identificación del tipo de Transacción | Nombre del tipo de Transacción | Tasa de Interés por cuota | Nro. Máximo
-Cuotas en que se puede solicitar |
+| Identificación del tipo de Transacción | Nombre del tipo de Transacción | Tasa de Interés por cuota | Nro. Máximo Cuotas en que se puede solicitar |
 | :---: | :---: | :---: | :---: |
 | 101 | Compras Tiendas del Retail o Asociadas | 0,05 | 48 |
 | 102 | Avance en Efectivo | 0,05 | 24 |
@@ -132,16 +131,22 @@ WHERE NRO_TARJETA=32723552593 AND NRO_TRANSACCION=1004;
 --RESPUESTA
 
 CREATE OR REPLACE DIRECTORY FOTOS_CLIENTE AS 'C:\fotos_clientes';
+
 --Realizar este grant desde un usuario con privilegios mas elevados.
+
 GRANT READ, WRITE ON DIRECTORY FOTOS_CLIENTE TO BEST;
+
 --Proceso para insertar errores
+
 CREATE OR REPLACE PROCEDURE SP_ERRORES(P_RUTINA VARCHAR, P_DESCRIPCION VARCHAR)IS
 BEGIN
     INSERT INTO ERROR_AVAN_SAVAN_MENSUALES VALUES(SEQ_ERROR.NEXTVAL,P_RUTINA,P_DESCRIPCION);
 END SP_ERRORES;
 
 --ITEM 2
+
 --INSERCION DE FOTOGRAFIAS
+
 SET SERVEROUTPUT ON;
 CREATE OR REPLACE PROCEDURE PRC_ACTUALIZAR_FOTOS IS
     CURSOR C_CLIENTE IS
@@ -184,6 +189,7 @@ BEGIN
 END;
 
 --CREAMOS UN JOB PARA QUE SE INICIE TODOS LOS DIAS A LAS 23:00
+
 BEGIN
     DBMS_SCHEDULER.CREATE_JOB(
     JOB_NAME =>'ACTUALIZAR_FOTOGRAFIAS',
@@ -198,6 +204,7 @@ BEGIN
 END;
 
 --EJECUTAMOS MANUALMENTE PARA COMPROBAR
+
 EXEC PRC_ACTUALIZAR_FOTOS;
 <p align="center">
   <img src="https://raw.githubusercontent.com/matiassanmartins/ORACLESQL/refs/heads/main/CASO_THE_BEST_PLSQL/IMAGENES/RESPUESTA2.png" title="hover text">
@@ -233,8 +240,11 @@ INNER JOIN PROVINCIA PRO ON PRO.COD_PROVINCIA = SRE.COD_PROVINCIA AND PRO.COD_RE
 INNER JOIN COMUNA CO ON CO.COD_COMUNA=SRE.COD_COMUNA AND CO.COD_REGION=SRE.COD_REGION AND CO.COD_PROVINCIA = SRE.COD_PROVINCIA
 INNER JOIN TARJETA_CLIENTE TAC ON TAC.NRO_TARJETA=TTC.NRO_TARJETA
 INNER JOIN CLIENTE CLI ON CLI.NUMRUN=TAC.NUMRUN
+
 --WHERE TO_CHAR(TTC.FECHA_TRANSACCION,'MM-YYYY')=TO_CHAR(ADD_MONTHS(SYSDATE,-1),'MM-YYYY') AND TTC.COD_TPTRAN_TARJETA != 101;
+
 --PARA FINES DE OBTENER DATOS SE USO ESTE PARAMETRO.
+
 WHERE TO_CHAR(TTC.FECHA_TRANSACCION,'MM-YYYY')='01-2019' AND TTC.COD_TPTRAN_TARJETA != 101;
 REG_DETALLE C_DETALLE%ROWTYPE;
 V_CORRELATIVO	NUMBER(6,0);
@@ -282,6 +292,7 @@ CLOSE C_DETALLE;
 END;
 
 --CREAMOS UN JOB QUE SE EJECUTE EL DIA PRIMERO DE CADA MES
+
 BEGIN
     DBMS_SCHEDULER.CREATE_JOB(
     JOB_NAME =>'CREAR_INFORME_MENSUAL',
@@ -296,6 +307,7 @@ BEGIN
 END;
 
 --EJECUTAMOS MANUALMENTE PARA COMPROBAR
+
 EXEC PRC_INFORME_AVANCES_SUPERS;
 
 DETALLE_AVAN_SAVAN_MENSUALES
